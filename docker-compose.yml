@@ -1,0 +1,101 @@
+services:
+  ekco-alert:
+    build: .
+    container_name: ekco-alert
+    command: python ekco_alert.py
+    restart: on-failure
+    volumes:
+      - ekco-heartbeats:/app/heartbeats
+    healthcheck:
+      test: ["CMD-SHELL", "test $$(($$(date +%s) - $$(stat -c %Y /app/heartbeats/ekco_alert.timestamp))) -lt 45 || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 2
+      start_period: 10s
+
+  ekco-device-data:
+    build: .
+    container_name: ekco-device-data
+    command: python ekco_device_data.py
+    restart: on-failure
+    volumes:
+      - ekco-heartbeats:/app/heartbeats
+    healthcheck:
+      test: ["CMD-SHELL", "test $$(($$(date +%s) - $$(stat -c %Y /app/heartbeats/ekco_device_data.timestamp))) -lt 45 || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 2
+      start_period: 10s
+
+  ekco-device-health:
+    build: .
+    container_name: ekco-device-health
+    command: python ekco_device_health.py
+    restart: on-failure
+    volumes:
+      - ekco-heartbeats:/app/heartbeats
+    healthcheck:
+      test: ["CMD-SHELL", "test $$(($$(date +%s) - $$(stat -c %Y /app/heartbeats/ekco_device_health.timestamp))) -lt 45 || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 2
+      start_period: 10s
+
+  ekco-device-message:
+    build: .
+    container_name: ekco-device-message
+    command: python ekco_device_message.py
+    restart: on-failure
+    volumes:
+      - ekco-heartbeats:/app/heartbeats
+    healthcheck:
+      test: ["CMD-SHELL", "test $$(($$(date +%s) - $$(stat -c %Y /app/heartbeats/ekco_device_message.timestamp))) -lt 45 || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 2
+      start_period: 10s
+
+  ekco-engine:
+    build: .
+    container_name: ekco-engine
+    command: python ekco_engine.py
+    restart: on-failure
+    volumes:
+      - ekco-heartbeats:/app/heartbeats
+    healthcheck:
+      test: ["CMD-SHELL", "test $$(($$(date +%s) - $$(stat -c %Y /app/heartbeats/ekco_engine.timestamp))) -lt 45 || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 2
+      start_period: 10s
+
+  ekco-gps:
+    build: .
+    container_name: ekco-gps
+    command: python ekco_gps.py
+    restart: on-failure
+    volumes:
+      - ekco-heartbeats:/app/heartbeats
+    healthcheck:
+      test: ["CMD-SHELL", "test $$(($$(date +%s) - $$(stat -c %Y /app/heartbeats/ekco_gps.timestamp))) -lt 45 || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 2
+      start_period: 10s
+
+  ekco-speed:
+    build: .
+    container_name: ekco-speed
+    command: python ekco_speed.py
+    restart: on-failure
+    volumes:
+      - ekco-heartbeats:/app/heartbeats
+    healthcheck:
+      test: ["CMD-SHELL", "test $$(($$(date +%s) - $$(stat -c %Y /app/heartbeats/ekco_speed.timestamp))) -lt 45 || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 2
+      start_period: 10s
+
+volumes:
+  ekco-heartbeats:

@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+.git/
+.gitignore
+.env
+.vscode/
+__pycache__
+pytest_cache/
+.tox/
+.coverage
